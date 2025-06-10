@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from app.config import settings
+from app.core.config import settings
 
 if not settings.DATABASE_URL:
 	raise ValueError("DATABASE_URL is not set in settings.")

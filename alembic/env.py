@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 # Import your models here to ensure they are registered with SQLAlchemy
-from app.db.session import Base
+from app.core.db import Base
 from app.models import user, task, project, project_member, task_comment  # import all models so Alembic can see them
 
 # this is the Alembic Config object, which provides
