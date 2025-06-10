@@ -1,12 +1,8 @@
 from fastapi import FastAPI
-from app.api.route import router
-from app.db.session import engine, Base
+from api.route import router
 
 def create_app() -> FastAPI:
     app = FastAPI()
-
-    # Create DB tables
-    Base.metadata.create_all(bind=engine)
 
     # Include routes
     app.include_router(router)
