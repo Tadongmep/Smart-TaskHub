@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.user import User # Assuming your User model is in app/models/user.py
-from app.schemas.user import UserCreate
+from models.user import User # Assuming your User model is in app/models/user.py
+from schemas.user import UserCreate
 from passlib.context import CryptContext
 import time
 

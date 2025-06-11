@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-# from app.api.routes import auth
+from api.routes import auth
 
 router = APIRouter()
 
@@ -8,4 +8,4 @@ router = APIRouter()
 def root():
     return {"message": "Welcome to FastAPI with Factory Pattern"}
 
-# router.include_router(auth.router, prefix="/auth", tags=["auth"])
+router.include_router(auth.router, prefix="/auth", tags=["auth"])

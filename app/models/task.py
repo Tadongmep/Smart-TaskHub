@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-from app.core.db import Base
+from core.db import Base
 
 
 class Task(Base):
