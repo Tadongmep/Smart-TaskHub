@@ -21,3 +21,11 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True # Changed from orm_mode = True in Pydantic v2
+
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    full_name: str
+
+    class Config:
+        orm_mode = True
