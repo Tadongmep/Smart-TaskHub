@@ -22,6 +22,15 @@ class ProjectListResponse(BaseModel):
     items: List[ProjectResponse]
 
 
+class ProjectListRequest(BaseModel):
+    page: int = 1
+    size: int = 10
+    search: Optional[str] = None
+
+    model_config = {
+        "from_attributes": True
+    }
+
 class ProjectCreateRequest(BaseModel):
     name: str
     description: Optional[str] = None
