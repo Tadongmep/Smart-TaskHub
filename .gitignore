@@ -1,2 +1,5 @@
 .env
 alembic.ini
+.venv
+__pycache__
+versions

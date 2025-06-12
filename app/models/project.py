@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from app.core.db import Base
+from core.db import Base
 from sqlalchemy import ForeignKey
 
 class Project(Base):
