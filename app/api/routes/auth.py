@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import JWTError
-from services.user_service import create_user
+from crud.user import create_user
 from utils import security
 from sqlalchemy.orm import Session
 from core.db import get_db
@@ -15,7 +15,7 @@ router = APIRouter()
 
 @router.post("/signup", response_model=UserResponse)
 # @router.post("/signup")
-def signup(user: UserCreate, db: Session = Depends(get_db)):
+async def signup(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(
         User.email == user.email).first()
     if existing_user:
@@ -31,10 +31,11 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not security.verify_password(form_data.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Incorrect email or password")
+        raise HTTPException(
+            status_code=401, detail="Incorrect email or password")
 
     access_token = security.create_access_token(data={"sub": str(user.id)})
     refresh_token = security.create_refresh_token(data={"sub": str(user.id)})
@@ -45,10 +46,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         "token_type": "bearer"
     }
 
+
 @router.post("/refresh", response_model=Token)
-def refresh_token(refresh_token: str = Body(...)):
+async def refresh_token(refresh_token: str = Body(...)):
     try:
-        payload = security.decode_token(refresh_token, settings.REFRESH_SECRET_KEY)
+        payload = security.decode_token(
+            refresh_token, settings.REFRESH_SECRET_KEY)
         user_id = payload.get("sub")
     except JWTError:
         raise HTTPException(status_code=403, detail="Invalid refresh token")
