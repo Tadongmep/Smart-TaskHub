@@ -64,3 +64,11 @@ class UserListResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+class UserShortResponse(BaseModel):
+    id: int
+    email: str
+    full_name: str | None = None
+    avatar_url: str | None = None
+
+    model_config = {"from_attributes": True}

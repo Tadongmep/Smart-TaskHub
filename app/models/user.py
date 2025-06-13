@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
-from core.db import Base
+from app.core.db import Base
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "users"
@@ -10,6 +11,13 @@ class User(Base):
     avatar_url = Column(String, nullable=True)
     created_at = Column(Integer, nullable=False)
     updated_at = Column(Integer, nullable=False)
+
+    # Relationships
+    owned_projects = relationship("Project", back_populates="owner")
+    memberships = relationship("ProjectMember", back_populates="user_information")
+    comments = relationship("TaskComment", back_populates="user")
+    task_creator = relationship("Task", back_populates="created_user", foreign_keys="Task.created_by")
+    assignee = relationship("Task", back_populates="assigned_user", foreign_keys="Task.assigned_to")
 
     def __repr__(self):
         return f"<User(id={self.id}, email={self.email}, full_name={self.full_name})>"

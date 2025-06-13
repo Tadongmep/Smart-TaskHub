@@ -1,6 +1,42 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
+from app.schemas.user import UserShortResponse
+
+
+class ProjectListRequest(BaseModel):
+    page: int = 1
+    size: int = 10
+    search: Optional[str] = None
+
+
+class ProjectCreateRequest(BaseModel):
+    name: str
+    description: Optional[str] = None
+
+
+class ProjectUpdateRequest(BaseModel):
+    id: int
+    name: Optional[str] = None
+    description: Optional[str] = None
+
+
+class ProjectDeleteRequest(BaseModel):
+    id: int
+
+
+class ProjectAddMemberRequest(BaseModel):
+    email: str
+
+
+class ProjectMemberResponse(BaseModel):
+    id: int
+    role: str
+    joined_at: int
+    user_information: UserShortResponse  # 🔁 Nested user
+
+    model_config = {"from_attributes": True}
+
 
 class ProjectResponse(BaseModel):
     id: int
@@ -9,6 +45,7 @@ class ProjectResponse(BaseModel):
     owner_id: int
     created_at: int
     updated_at: int
+    members: list[ProjectMemberResponse] = []
 
     model_config = {
         "from_attributes": True
@@ -22,38 +59,6 @@ class ProjectListResponse(BaseModel):
     items: List[ProjectResponse]
 
 
-class ProjectListRequest(BaseModel):
-    page: int = 1
-    size: int = 10
-    search: Optional[str] = None
-
-    model_config = {
-        "from_attributes": True
-    }
-
-class ProjectCreateRequest(BaseModel):
-    name: str
-    description: Optional[str] = None
-    owner_id: int
-
-    model_config = {
-        "from_attributes": True
-    }
-
-
-class ProjectUpdateRequest(BaseModel):
-    id: int
-    name: Optional[str] = None
-    description: Optional[str] = None
-
-    model_config = {
-        "from_attributes": True
-    }
-
-class ProjectDeleteRequest(BaseModel):
-    id: int
-
-    model_config = {
-        "from_attributes": True
-    }
-
+class ProjectRemoveMemberRequest(BaseModel):
+    project_id: str
+    user_id: str

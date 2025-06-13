@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from api.deps import get_current_user
-from crud.user import update_user
-from models.user import User
-from schemas.user import UserResponse, UserUpdate
+from app.api.deps import get_current_user
+from app.crud.user import update_user
+from app.models.user import User
+from app.schemas.user import UserResponse, UserUpdate
 from sqlalchemy.orm import Session
-from core.db import get_db
+from app.core.db import get_db
 
 router = APIRouter()
 

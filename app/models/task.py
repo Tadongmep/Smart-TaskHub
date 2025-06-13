@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-from core.db import Base
-
+from app.core.db import Base
+from sqlalchemy.orm import relationship
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -18,6 +18,12 @@ class Task(Base):
                          nullable=True)  # Nullable if not assigned
     created_at = Column(Integer, nullable=False)
     updated_at = Column(Integer, nullable=False)
+
+    # Relationships
+    project = relationship("Project", back_populates="tasks", foreign_keys=[project_id])
+    comments = relationship("TaskComment", back_populates="task", cascade="all, delete-orphan")
+    created_user = relationship("User", back_populates="task_creator" ,foreign_keys=[created_by])
+    assigned_user = relationship("User", back_populates="assignee", foreign_keys=[assigned_to])
 
     def __repr__(self):
         return f"<Task(id={self.id}, project_id={self.project_id}, title={self.title}, status={self.status})>"

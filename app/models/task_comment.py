@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-from core.db import Base
-
+from app.core.db import Base
+from sqlalchemy.orm import relationship
 
 class TaskComment(Base):
     __tablename__ = "task_comments"
@@ -9,6 +9,10 @@ class TaskComment(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     content = Column(String, nullable=False)
     created_at = Column(Integer, nullable=False)
+
+    # Relationships
+    task = relationship("Task", back_populates="comments")
+    user = relationship("User", back_populates="comments", foreign_keys=[user_id])
 
     def __repr__(self):
         return f"<TaskComment(id={self.id}, task_id={self.task_id}, user_id={self.user_id})>"

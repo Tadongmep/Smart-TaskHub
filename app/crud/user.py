@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from api.deps import get_current_user
-from utils.security import get_password_hash
-from models.user import User  # Assuming your User model is in app/models/user.py
-from schemas.user import UserCreate, UserUpdate
+from app.api.deps import get_current_user
+from app.utils.security import get_password_hash
+from app.models.user import User  # Assuming your User model is in app/models/user.py
+from app.schemas.user import UserCreate, UserUpdate
 from passlib.context import CryptContext
 import time
 

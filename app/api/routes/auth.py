@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Body, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import JWTError
-from crud.user import create_user
-from utils import security
+from app.crud.user import create_user
+from app.utils import security
 from sqlalchemy.orm import Session
-from core.db import get_db
-from models.user import User
-from schemas.token import Token
-from schemas.user import UserCreate, UserResponse
-from core.config import settings
+from app.core.db import get_db
+from app.models.user import User
+from app.schemas.token import Token
+from app.schemas.user import UserCreate, UserResponse
+from app.core.config import settings
 
 router = APIRouter()
 
